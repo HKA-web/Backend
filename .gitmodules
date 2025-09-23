@@ -1,0 +1,3 @@
+[submodule "bin/python"]
+	path = bin/python
+	url = https://github.com/HKA-web/Python-Portable.git

@@ -1,0 +1,15 @@
+server:
+  host: 0.0.0.0
+  port: 8000
+  debug: true
+
+workers:
+  authentication:
+    priority: 1
+    queue: auth_queue
+  core:
+    priority: 2
+    queue: core_queue
+
+channels:
+  redis_url: redis://127.0.0.1:6379/0
