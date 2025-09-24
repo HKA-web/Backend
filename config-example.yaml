@@ -3,13 +3,20 @@ server:
   port: 8000
   debug: true
 
+databases:
+  erpro:
+    engine: django.db.backends.postgresql
+    name: localdb
+    user: postgres
+    password: root
+    host: localhost
+    port: 5432
+
 workers:
   authentication:
     priority: 1
     queue: auth_queue
-  core:
-    priority: 2
-    queue: core_queue
+    workers: 2
 
 channels:
   redis_url: redis://127.0.0.1:6379/0
