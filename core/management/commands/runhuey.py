@@ -12,7 +12,8 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('module_name', type=str, help='Module name to run worker for')
         parser.add_argument('--workers', type=int, help='Number of worker threads (optional)')
-
+        parser.add_argument('--port', type=int, help='Optional port to run the service')
+        
     def handle(self, *args, **options):
         module_name = options['module_name']
         workers = options.get('workers')

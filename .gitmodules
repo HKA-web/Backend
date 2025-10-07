@@ -1,6 +1,3 @@
 [submodule "bin/python"]
 	path = bin/python
 	url = https://github.com/HKA-web/Python-Portable.git
-[submodule "bin/redis"]
-	path = bin/redis
-	url = https://github.com/HKA-web/Redis-Portable.git

@@ -54,21 +54,26 @@ ROOT_URLCONF = 'config.urls'
 
 # Redis config
 redis_conf = CONFIG.get('redis', {})
-if redis_conf.get('enabled', False):
+if redis_conf.get("enabled", False):
+    REDIS_URL = f"redis://{redis_conf['host']}:{redis_conf['port']}/{redis_conf.get('db', 0)}"
+    if redis_conf.get("password"):
+        # tambahkan password ke URL
+        REDIS_URL = f"redis://:{redis_conf['password']}@{redis_conf['host']}:{redis_conf['port']}/{redis_conf.get('db', 0)}"
+
     CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': f'redis://{redis_conf['host']}:{redis_conf['port']}/{redis_conf.get('db', 0)}',
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-                **({'PASSWORD': redis_conf['password']} if redis_conf.get('password') else {}),
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": REDIS_URL,
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
             },
         }
     }
 else:
-    # fallback ke dummy cache supaya code tetap jalan walau redis mati
+    # fallback ke dummy cache
+    REDIS_URL = "redis://127.0.0.1:6379/0"
     CACHES = {
-        'default': {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
+        "default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}
     }
 
 TEMPLATES = [

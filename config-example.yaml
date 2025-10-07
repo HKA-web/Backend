@@ -4,7 +4,7 @@ server:
   debug: true
 
 databases:
-  erpro:
+  postgres:
     engine: django.db.backends.postgresql
     name: localdb
     user: postgres
