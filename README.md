@@ -4,28 +4,23 @@ Fungsi utama Backend Core
 
 1. Centralized core logic
 
-- Semua fungsi microservice
-
 2. Shared modules
-
-- Bisa digunakan bersama oleh beberapa microservice:
-
-	- sqlserver-service
 
 3. Mempermudah maintainability
 
-- Kalau ada perubahan di core, cukup update di satu tempat → semua service bisa pakai versi terbaru.
-
 4. Mempermudah struktur proyek
 
-- Jadi microservice nggak berantakan karena semua kode inti dipisah di satu folder.
 
-## Clone Project:
+# Clone Project:
 ```
 git clone https://github.com/HKA-web/backend.git
 git submodule update --init --recursive
 git pull --recurse-submodules
 ```
+
+# Related Project:
+
+1. Api Gateway: https://github.com/HKA-web/Api-Gateway.gitss
 
 # Arsitektur
 ```
@@ -86,12 +81,17 @@ git pull --recurse-submodules
 
 ```
 
-## 🔑 Daftar Perintah:
 
-1. python manage.py runserver atau python manage.py runserver --port 8001
+# 🔑 Daftar Perintah:
 
-2. python manage.py runservice <module> atau python manage.py runservice <module> --port 8001
+1. python manage.py runserver 																		<-- DEVELOPMENT
 
-3. python manage.py runhuey <module> atau python manage.py runhuey <module> --port 8001
+2. python manage.py rundaphne																		<-- PRODUCTION
 
-4. python manage.py runhuey shell
+3. python manage.py runhuey <module> atau python manage.py runhuey <module> --verbose 				<-- QUEUE
+
+4. python manage.py runservice <module> atau python manage.py runservice <module> --port <port>  	<-- INDEPENDENT MODULE
+
+5. python manage.py shell																			<-- PYTHON CONSOLE
+
+6. python manage.py collectstatic																	<-- COLLECT ASEET

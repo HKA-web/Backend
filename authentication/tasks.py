@@ -1,13 +1,16 @@
 from huey import RedisHuey
-from config.settings import REDIS_URL, CONFIG
+from config.settings import CONFIG
 
+# --- Ambil konfigurasi dari YAML ---
 worker_conf = CONFIG.get('workers', {}).get('authentication', {})
+queue_name = worker_conf.get('queue', 'authentication_queue')
 
-queue_name = worker_conf.get('queue', 'auth_queue')
-num_workers = worker_conf.get('workers', 1)
+# Ambil URL Redis khusus untuk tasks (Huey)
+redis_url = CONFIG.get('tasks', {}).get('redis_url', 'redis://127.0.0.1:6379/1')
 
-huey = RedisHuey(queue_name, url=REDIS_URL)
+# Inisialisasi Huey dengan Redis URL dari config.yaml
+huey = RedisHuey(queue_name, url=redis_url)
 
 @huey.task()
 def welcome():
-    print(f'[INFO] Welcome task on queue={queue_name}')
+    print(f'[INFO] Welcome task on queue={queue_name}, redis={redis_url}')

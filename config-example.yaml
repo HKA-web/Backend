@@ -1,7 +1,8 @@
 server:
   host: 0.0.0.0
   port: 8000
-  debug: true
+  debug: false
+  workers: auto
 
 databases:
   postgres:
@@ -15,8 +16,12 @@ databases:
 workers:
   authentication:
     priority: 1
-    queue: auth_queue
-    workers: 2
+    queue: authentication_queue
+  sample:
+    priority: 2
+    queue: sample_queue
 
 channels:
-  redis_url: redis://127.0.0.1:6379/0
+  redis_url: redis://127.0.0.1:6379/1
+tasks:
+  redis_url: redis://127.0.0.1:6379/2

@@ -6,7 +6,7 @@ REM  Menggunakan Python dari folder bin/
 REM ================================================
 
 REM Set path Python dari folder bin
-set "PYTHON_BIN=%~dp0bin\python\python.exe"
+set PYTHON_BIN=%~dp0bin\python\python.exe
 
 if not exist "%PYTHON_BIN%" (
     echo [ERROR] Python tidak ditemukan di %PYTHON_BIN%
@@ -14,24 +14,25 @@ if not exist "%PYTHON_BIN%" (
     exit /b 1
 )
 
-REM Hapus venv lama jika ada
-if exist "%~dp0venv" (
-    echo [INFO] Menghapus virtual environment lama...
-    rmdir /s /q "%~dp0venv"
-)
-
-REM Membuat virtual environment baru
+REM Membuat virtual environment
 echo [INFO] Membuat virtual environment...
 "%PYTHON_BIN%" -m venv venv
 
 REM Aktivasi venv
 echo [INFO] Mengaktifkan virtual environment...
-call "%~dp0venv\Scripts\activate.bat"
+call venv\Scripts\activate.bat
 
 REM Upgrade pip ke versi terbaru
 echo [INFO] Upgrade pip...
 python -m pip install --upgrade pip
 
+REM Install requirements.txt
+if exist requirements.txt (
+    echo [INFO] Menginstall dependencies dari requirements.txt...
+    pip install -r requirements.txt
+) else (
+    echo [WARNING] requirements.txt tidak ditemukan!
+)
+
 echo [INFO] Selesai! venv siap digunakan.
 pause
-REM cmd /k

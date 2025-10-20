@@ -2,30 +2,40 @@ import os
 import yaml
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# -----------------------------
+# Base directory
+# -----------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Tentukan nama service saat run
+# -----------------------------
+# Service name
+# -----------------------------
 SERVICE_NAME = os.environ.get('SERVICE_NAME', 'users-service')
 
-# Load YAML config
+# -----------------------------
+# Load config.yaml
+# -----------------------------
 with open(BASE_DIR / 'config.yaml') as f:
     CONFIG = yaml.safe_load(f)
-    
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = CONFIG['server'].get('secret_key', 'django-insecure-$2of$_!*kpie7%j-runx!p=zf#uh($abdx%(-imd&h)v_o@oy4')
-
-# SECURITY WARNING: don't run with debug turned on in production!
+# -----------------------------
+# Security
+# -----------------------------
+SECRET_KEY = CONFIG['server'].get(
+    'secret_key',
+    'django-insecure-$2of$_!*kpie7%j-runx!p=zf#uh($abdx%(-imd&h)v_o@oy4'
+)
 DEBUG = CONFIG['server'].get('debug', True)
-
 ALLOWED_HOSTS = CONFIG.get('allowed_hosts', ['*'])
 
+# -----------------------------
+# Server-specific workers (Huey)
+# -----------------------------
+SERVER_CONFIG = CONFIG.get("server", {}) 
 
-# Application definition
-
+# -----------------------------
+# Application
+# -----------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,32 +60,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
-
-# Redis config
-redis_conf = CONFIG.get('redis', {})
-if redis_conf.get("enabled", False):
-    REDIS_URL = f"redis://{redis_conf['host']}:{redis_conf['port']}/{redis_conf.get('db', 0)}"
-    if redis_conf.get("password"):
-        # tambahkan password ke URL
-        REDIS_URL = f"redis://:{redis_conf['password']}@{redis_conf['host']}:{redis_conf['port']}/{redis_conf.get('db', 0)}"
-
-    CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": REDIS_URL,
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            },
-        }
-    }
-else:
-    # fallback ke dummy cache
-    REDIS_URL = "redis://127.0.0.1:6379/0"
-    CACHES = {
-        "default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}
-    }
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -91,12 +75,13 @@ TEMPLATES = [
     },
 ]
 
+ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
 
-
+# -----------------------------
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# -----------------------------
 DATABASES = {}
 for alias, db_conf in CONFIG.get('databases', {}).items():
     DATABASES[alias] = {
@@ -107,58 +92,123 @@ for alias, db_conf in CONFIG.get('databases', {}).items():
         'HOST': db_conf['host'],
         'PORT': db_conf['port'],
     }
-    
+
 if "default" not in DATABASES:
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 
+# -----------------------------
 # Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# -----------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
+# -----------------------------
 # Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
+# -----------------------------
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# -----------------------------
+# Static files
+# -----------------------------
 STATIC_URL = 'static/'
-
-# Folder tujuan collectstatic
 STATIC_ROOT = CONFIG['server'].get('staticfiles', os.path.join(BASE_DIR, 'static'))
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
+# -----------------------------
+# Default primary key
+# -----------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ASGI_APPLICATION = 'config.asgi.application'
+# -----------------------------
+# Redis + Channel Layers
+# -----------------------------
+REDIS_URL = CONFIG.get('channels', {}).get('redis_url', 'redis://127.0.0.1:6379/0')
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_URL,
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    }
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [REDIS_URL]},
+    }
+}
+
+# -----------------------------
+# ASGI server config
+# -----------------------------
+ASGI_HOST = CONFIG['server'].get('host', '0.0.0.0')
+ASGI_PORT = int(CONFIG['server'].get('port', 8000))
+ASGI_WORKERS = CONFIG['server'].get('workers', 1)  # untuk server, bukan modul
+
+# -----------------------------
+# Module-specific workers (Huey)
+# -----------------------------
+SERVER_WORKERS = CONFIG.get('workers', {})  # misal: {"authentication": {"workers": 1}}
+
+# -----------------------------
+# Logging
+# -----------------------------
+LOG_LEVEL = "DEBUG" if DEBUG else "WARNING"
+LOG_FORMAT = "[%(asctime)s] %(levelname)s %(name)s: %(message)s"
+
+try:
+    import colorlog
+    FORMATTERS = {
+        "color": {
+            "()": "colorlog.ColoredFormatter",
+            "format": "%(log_color)s" + LOG_FORMAT,
+            "log_colors": {
+                "DEBUG": "cyan",
+                "INFO": "green",
+                "WARNING": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "bold_red",
+            },
+        },
+        "verbose": {"format": LOG_FORMAT},
+    }
+    COLOR_HANDLER = {"class": "logging.StreamHandler", "formatter": "color"}
+except ImportError:
+    FORMATTERS = {"verbose": {"format": LOG_FORMAT}}
+    COLOR_HANDLER = {"class": "logging.StreamHandler", "formatter": "verbose"}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": FORMATTERS,
+    "handlers": {
+        "console": COLOR_HANDLER,
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / f"{SERVICE_NAME}.log",
+            "formatter": "verbose",
+        },
+    },
+    "root": {"handlers": ["console", "file"], "level": LOG_LEVEL},
+}
+
+# -----------------------------
+# Startup info
+# -----------------------------
+import logging
+logger = logging.getLogger(__name__)
+if DEBUG:
+    logger.info("🚀 Running in DEBUG mode with verbose logging.")
+else:
+    logger.warning("⚙️ Running in PRODUCTION mode with minimal logging.")
