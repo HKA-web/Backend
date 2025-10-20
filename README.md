@@ -82,16 +82,62 @@ git pull --recurse-submodules
 ```
 
 
-# 🔑 Daftar Perintah:
+# 🔑 List Commad:
+```
+Available subcommands:
 
-1. python manage.py runserver 																		<-- DEVELOPMENT
+[auth]
+    changepassword
+    createsuperuser
 
-2. python manage.py rundaphne																		<-- PRODUCTION
+[channels]
+    runworker
 
-3. python manage.py runhuey <module> atau python manage.py runhuey <module> --verbose 				<-- QUEUE
+[contenttypes]
+    remove_stale_contenttypes
 
-4. python manage.py runservice <module> atau python manage.py runservice <module> --port <port>  	<-- INDEPENDENT MODULE
+[core]
+    rundaphne
+    runhuey
+    runservice
 
-5. python manage.py shell																			<-- PYTHON CONSOLE
+[django]
+    check
+    compilemessages
+    createcachetable
+    dbshell
+    diffsettings
+    dumpdata
+    flush
+    inspectdb
+    loaddata
+    makemessages
+    makemigrations
+    migrate
+    optimizemigration
+    sendtestemail
+    shell
+    showmigrations
+    sqlflush
+    sqlmigrate
+    sqlsequencereset
+    squashmigrations
+    startapp
+    startproject
+    test
+    testserver
 
-6. python manage.py collectstatic																	<-- COLLECT ASEET
+[rest_framework]
+    generateschema
+
+[sessions]
+    clearsessions
+
+[staticfiles]
+    collectstatic
+    findstatic
+    runserver
+
+Gunakan: cwd [command]
+Contoh: cwd runserver, cwd runhuey authentication
+```

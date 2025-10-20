@@ -69,15 +69,29 @@
 
 📌 Dengan cara ini, kamu punya Django project minimalis dengan file inti (settings.py, urls.py, asgi.py, wsgi.py) langsung di root backend/, dan Python portable ada di bin/.
 
-============================ 
+===========================================================================================================
+
+command:
+
+1. cwd runserver 														<-- DEVELOPMENT
+
+2. cwd rundaphne														<-- PRODUCTION
+
+3. cwd runhuey <module> atau cwd runhuey <module> --verbose 			<-- QUEUE
+
+4. cwd runservice <module> atau cwd runservice <module> --port <port>  	<-- INDEPENDENT MODULE
+
+5. cwd shell															<-- PYTHON CONSOLE
+
+6. cwd collectstatic													<-- COLLECT ASEET
+
+=========================================================================================================== 
 
 Kalau nanti kamu mau update Python ke versi terbaru tapi tetap pakai struktur portable seperti sekarang (bin/python.exe + Django project di root), alurnya bisa kamu anggap kayak ganti mesin baru untuk project lama.
 
 🔄 Langkah-langkah Update Python Portable (versi baru)
 
-1. Download Python Embeddable terbaru
-
-	Ambil dari python.org/downloads/windows
+1. Update Python Portable (versi baru)
 
 2. Backup / Replace bin/
 
@@ -143,6 +157,3 @@ backend/
 
 
 Jadi kalau update Python, cukup replace bin/.
-
-Cek kompatibilitas Django
-Misalnya Django 5.1 butuh Python >= 3.10. Jadi pastikan versi cocok.
