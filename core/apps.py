@@ -1,4 +1,3 @@
-# core/apps.py
 import os
 import sys
 import importlib
@@ -61,8 +60,6 @@ def allocate_workers_by_priority(config: dict) -> dict:
 
     return allocation
 
-
-
 # ==========================================
 # ⚙️ Class utama CoreConfig
 # ==========================================
@@ -86,16 +83,54 @@ class CoreConfig(AppConfig):
         except Exception:
             pass
 
-        # === Deteksi port (mendukung --port atau -p) ===
-        port = 8000
+        # === Deteksi host & port dari berbagai sumber ===
+        from django.conf import settings
+
+        host = None
+        port = None
+
+        # 1️⃣ Cek argumen gaya --port / -p
         for flag in ("--port", "-p"):
             if flag in sys.argv:
                 try:
                     port = int(sys.argv[sys.argv.index(flag) + 1])
-                except Exception:
-                    pass
+                    break
+                except (IndexError, ValueError):
+                    continue
 
-        print(f"\n[INFO] === Django starting with command: {command}, port: {port} ===\n")
+        # 2️⃣ Cek argumen gaya host:port (misal: 0.0.0.0:8001)
+        if port is None or host is None:
+            for arg in sys.argv:
+                if ":" in arg:
+                    parts = arg.split(":")
+                    try:
+                        # Format bisa 0.0.0.0:8001 atau [::1]:8002
+                        port_candidate = int(parts[-1])
+                        port = port_candidate
+                        host_candidate = ":".join(parts[:-1])
+                        if host_candidate:
+                            host = host_candidate
+                        break
+                    except ValueError:
+                        continue
+
+        # 3️⃣ Ambil dari settings (YAML)
+        if host is None:
+            host = getattr(settings, "SERVER_HOST", "127.0.0.1")
+        if port is None:
+            try:
+                port = int(getattr(settings, "SERVER_PORT", 8000))
+            except Exception:
+                port = 8000
+
+        # 4️⃣ Pastikan valid
+        if not isinstance(port, int):
+            port = 8000
+        if not isinstance(host, str):
+            host = "127.0.0.1"
+
+        # === Banner startup ===
+        print(f"\n[INFO] === Django starting with command: {command}, host: {host}, port: {port} ===\n")
 
         # === Scan setiap module di BASE_DIR ===
         for module_name in os.listdir(BASE_DIR):

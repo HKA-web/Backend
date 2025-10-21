@@ -1,7 +1,7 @@
 server:
   host: 0.0.0.0
   port: 8000
-  debug: false
+  debug: true
   workers: auto
 
 databases:
@@ -12,7 +12,14 @@ databases:
     password: root
     host: localhost
     port: 5432
-
+  sqlserver:
+    server1:
+      driver: "{SQL Server}"
+      pipe: "\\\\127.0.0.1\\pipe\\sql\\query"
+      database: "master"
+      uid: "sa"
+      pwd: ""
+    
 workers:
   authentication:
     priority: 1

@@ -1,6 +1,6 @@
-# Backend Core
+# Backend
 
-Fungsi utama Backend Core
+Fungsi utama Backend
 
 1. Centralized core logic
 
@@ -13,14 +13,14 @@ Fungsi utama Backend Core
 
 # Clone Project:
 ```
-git clone https://github.com/HKA-web/backend.git
+git clone https://github.com/HKA-web/Backend.git
 git submodule update --init --recursive
 git pull --recurse-submodules
 ```
 
 # Related Project:
 
-1. Api Gateway: https://github.com/HKA-web/Api-Gateway.gitss
+1. Api Gateway: https://github.com/HKA-web/Api-Gateway.git
 
 # Arsitektur
 ```

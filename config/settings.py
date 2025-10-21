@@ -29,9 +29,11 @@ DEBUG = CONFIG['server'].get('debug', True)
 ALLOWED_HOSTS = CONFIG.get('allowed_hosts', ['*'])
 
 # -----------------------------
-# Server-specific workers (Huey)
+# Server Run
 # -----------------------------
 SERVER_CONFIG = CONFIG.get("server", {}) 
+SERVER_HOST = SERVER_CONFIG.get("host", "127.0.0.1")
+SERVER_PORT = str(SERVER_CONFIG.get("port", 8000))
 
 # -----------------------------
 # Application
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'channels',
+    'django_extensions',
     'authentication',
     'core',
 ]
@@ -80,23 +83,44 @@ WSGI_APPLICATION = 'wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 # -----------------------------
-# Database
+# Database (Django ORM)
 # -----------------------------
 DATABASES = {}
-for alias, db_conf in CONFIG.get('databases', {}).items():
-    DATABASES[alias] = {
-        'ENGINE': db_conf['engine'],
-        'NAME': db_conf['name'],
-        'USER': db_conf['user'],
-        'PASSWORD': db_conf['password'],
-        'HOST': db_conf['host'],
-        'PORT': db_conf['port'],
-    }
 
+for alias, db_conf in CONFIG.get('databases', {}).items():
+    if 'engine' in db_conf:
+        DATABASES[alias] = {
+            'ENGINE': db_conf.get('engine', 'django.db.backends.sqlite3'),
+            'NAME': db_conf.get('name', os.path.join(BASE_DIR, 'db.sqlite3')),
+            'USER': db_conf.get('user', ''),
+            'PASSWORD': db_conf.get('password', ''),
+            'HOST': db_conf.get('host', 'localhost'),
+            'PORT': db_conf.get('port', ''),
+        }
+
+# Default fallback jika tidak ada sama sekali
 if "default" not in DATABASES:
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
+
+# -----------------------------
+# SQL Server 2000 multi-server config (otomatis dari env.yaml / config.yaml)
+# -----------------------------
+SQLSERVER_DEFAULT = CONFIG.get('databases', {}).get('sqlserver', {})
+
+# Fallback default jika env.yaml tidak ada sama sekali
+if not SQLSERVER_DEFAULT:
+    SQLSERVER_DEFAULT = {
+        "server1": {
+            "driver": "{SQL Server}",
+            "pipe": r"\\192.168.6.28\pipe\sql\query",
+            "database": "master",
+            "uid": "sa",
+            "pwd": "PASSWORDSETUPSRVNUSANTARAMUJUR",
+            "priority": 1,
+        }
     }
 
 # -----------------------------
@@ -211,4 +235,4 @@ logger = logging.getLogger(__name__)
 if DEBUG:
     logger.info("🚀 Running in DEBUG mode with verbose logging.")
 else:
-    logger.warning("⚙️ Running in PRODUCTION mode with minimal logging.")
+    logger.warning("⚙️ Running in PRODUCTION mode dengan minimal logging.")
