@@ -4439,3 +4439,137 @@ RuntimeError: CurrentThreadExecutor already quit or is broken
 [2025-10-21 21:18:05,058] INFO django.utils.autoreload: C:\Backend\mssql\views\querytool.py changed, reloading.
 [2025-10-21 21:18:06,084] DEBUG asyncio: Using selector: SelectSelector
 [2025-10-21 21:18:06,352] INFO django.utils.autoreload: Watching for file changes with StatReloader
+[2025-10-21 21:18:06,620] INFO daphne.server: HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+[2025-10-21 21:18:06,621] INFO daphne.server: Configuring endpoint tcp:port=8001:interface=0.0.0.0
+[2025-10-21 21:18:06,622] INFO daphne.server: Listening on TCP address 0.0.0.0:8001
+[2025-10-21 21:18:10,068] DEBUG daphne.http_protocol: HTTP b'PUT' request for ['127.0.0.1', 53342]
+[2025-10-21 21:18:10,482] DEBUG daphne.http_protocol: HTTP 200 response started for ['127.0.0.1', 53342]
+[2025-10-21 21:18:10,483] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53342]
+[2025-10-21 21:18:10,483] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53342]
+[2025-10-21 21:18:10,483] INFO django.channels.server: HTTP PUT /api/querytool/update/ 200 [0.42, 127.0.0.1:53342]
+[2025-10-21 21:18:38,021] DEBUG daphne.http_protocol: HTTP b'POST' request for ['127.0.0.1', 53346]
+[2025-10-21 21:18:38,221] DEBUG daphne.http_protocol: HTTP 200 response started for ['127.0.0.1', 53346]
+[2025-10-21 21:18:38,222] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53346]
+[2025-10-21 21:18:38,223] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53346]
+[2025-10-21 21:18:38,224] INFO django.channels.server: HTTP POST /api/querytool/read/ 200 [0.20, 127.0.0.1:53346]
+[2025-10-21 21:18:55,873] DEBUG daphne.http_protocol: HTTP b'POST' request for ['127.0.0.1', 53351]
+[2025-10-21 21:18:59,729] DEBUG daphne.http_protocol: HTTP 200 response started for ['127.0.0.1', 53351]
+[2025-10-21 21:18:59,730] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53351]
+[2025-10-21 21:18:59,731] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53351]
+[2025-10-21 21:18:59,731] INFO django.channels.server: HTTP POST /api/querytool/read/ 200 [3.86, 127.0.0.1:53351]
+[2025-10-21 23:17:01,452] DEBUG daphne.http_protocol: HTTP b'POST' request for ['127.0.0.1', 53493]
+[2025-10-21 23:17:03,558] DEBUG daphne.http_protocol: HTTP 200 response started for ['127.0.0.1', 53493]
+[2025-10-21 23:17:03,565] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53493]
+[2025-10-21 23:17:03,575] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53493]
+[2025-10-21 23:17:03,583] INFO django.channels.server: HTTP POST /api/querytool/read/ 200 [2.13, 127.0.0.1:53493]
+[2025-10-22 00:08:41,313] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 00:08:42,558] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 00:08:42,864] INFO django.utils.autoreload: Watching for file changes with StatReloader
+[2025-10-22 00:08:43,317] INFO daphne.server: HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+[2025-10-22 00:08:43,318] INFO daphne.server: Configuring endpoint tcp:port=8001:interface=0.0.0.0
+[2025-10-22 00:08:43,320] INFO daphne.server: Listening on TCP address 0.0.0.0:8001
+[2025-10-22 00:08:47,019] DEBUG daphne.http_protocol: HTTP b'POST' request for ['127.0.0.1', 53638]
+[2025-10-22 00:08:51,331] DEBUG daphne.http_protocol: HTTP 200 response started for ['127.0.0.1', 53638]
+[2025-10-22 00:08:51,332] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53638]
+[2025-10-22 00:08:51,332] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53638]
+[2025-10-22 00:08:51,332] INFO django.channels.server: HTTP POST /api/querytool/read/ 200 [4.31, 127.0.0.1:53638]
+[2025-10-22 00:41:58,822] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 00:41:59,994] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 00:42:00,343] INFO django.utils.autoreload: Watching for file changes with StatReloader
+[2025-10-22 00:42:00,711] INFO daphne.server: HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+[2025-10-22 00:42:00,713] INFO daphne.server: Configuring endpoint tcp:port=8001:interface=0.0.0.0
+[2025-10-22 00:42:00,716] CRITICAL daphne.server: Listen failure: Couldn't listen on 0.0.0.0:8001: [WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted.
+[2025-10-22 00:43:00,581] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 00:43:01,587] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 00:43:01,808] INFO django.utils.autoreload: Watching for file changes with StatReloader
+[2025-10-22 00:43:02,071] INFO daphne.server: HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+[2025-10-22 00:43:02,072] INFO daphne.server: Configuring endpoint tcp:port=8001:interface=0.0.0.0
+[2025-10-22 00:43:02,073] INFO daphne.server: Listening on TCP address 0.0.0.0:8001
+[2025-10-22 00:43:15,695] DEBUG daphne.http_protocol: HTTP b'POST' request for ['127.0.0.1', 53742]
+[2025-10-22 00:43:19,242] DEBUG daphne.http_protocol: HTTP 200 response started for ['127.0.0.1', 53742]
+[2025-10-22 00:43:19,244] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53742]
+[2025-10-22 00:43:19,244] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53742]
+[2025-10-22 00:43:19,246] INFO django.channels.server: HTTP POST /api/querytool/read/ 200 [3.55, 127.0.0.1:53742]
+[2025-10-22 01:11:36,250] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 01:11:37,553] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 01:11:37,811] INFO django.utils.autoreload: Watching for file changes with StatReloader
+[2025-10-22 01:11:38,199] INFO daphne.server: HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+[2025-10-22 01:11:38,199] INFO daphne.server: Configuring endpoint tcp:port=8001:interface=0.0.0.0
+[2025-10-22 01:11:38,201] INFO daphne.server: Listening on TCP address 0.0.0.0:8001
+[2025-10-22 01:11:42,207] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,667] DEBUG daphne.http_protocol: HTTP 200 response started for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,668] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,668] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,668] INFO django.channels.server: HTTP GET /api/ 200 [0.46, 127.0.0.1:53837]
+[2025-10-22 01:11:42,762] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,765] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,766] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,768] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,769] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,769] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,769] INFO django.channels.server: HTTP GET /static/rest_framework/css/bootstrap.min.css 304 [0.01, 127.0.0.1:53837]
+[2025-10-22 01:11:42,773] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,775] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,778] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,780] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,780] INFO django.channels.server: HTTP GET /static/rest_framework/css/prettify.css 304 [0.02, 127.0.0.1:53838]
+[2025-10-22 01:11:42,782] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,784] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,785] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,785] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,786] INFO django.channels.server: HTTP GET /static/rest_framework/js/jquery-3.7.1.min.js 304 [0.02, 127.0.0.1:53839]
+[2025-10-22 01:11:42,787] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,790] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,790] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,790] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,791] INFO django.channels.server: HTTP GET /static/rest_framework/css/default.css 304 [0.02, 127.0.0.1:53837]
+[2025-10-22 01:11:42,793] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,798] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,802] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,802] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,803] INFO django.channels.server: HTTP GET /static/rest_framework/css/bootstrap-tweaks.css 304 [0.02, 127.0.0.1:53838]
+[2025-10-22 01:11:42,807] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,808] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,809] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,812] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,813] INFO django.channels.server: HTTP GET /static/rest_framework/js/bootstrap.min.js 304 [0.03, 127.0.0.1:53839]
+[2025-10-22 01:11:42,815] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,817] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,825] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,826] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,827] INFO django.channels.server: HTTP GET /static/rest_framework/js/ajax-form.js 304 [0.03, 127.0.0.1:53837]
+[2025-10-22 01:11:42,830] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,832] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,833] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,833] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,835] INFO django.channels.server: HTTP GET /static/rest_framework/js/csrf.js 304 [0.03, 127.0.0.1:53838]
+[2025-10-22 01:11:42,839] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,841] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,842] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,842] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,842] INFO django.channels.server: HTTP GET /static/rest_framework/js/prettify-min.js 304 [0.03, 127.0.0.1:53839]
+[2025-10-22 01:11:42,844] DEBUG daphne.http_protocol: HTTP b'GET' request for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,845] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,847] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,847] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53837]
+[2025-10-22 01:11:42,847] INFO django.channels.server: HTTP GET /static/rest_framework/js/default.js 304 [0.02, 127.0.0.1:53837]
+[2025-10-22 01:11:42,851] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,853] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,854] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53838]
+[2025-10-22 01:11:42,854] INFO django.channels.server: HTTP GET /static/rest_framework/js/load-ajax-form.js 304 [0.02, 127.0.0.1:53838]
+[2025-10-22 01:11:42,859] DEBUG daphne.http_protocol: HTTP 304 response started for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,860] DEBUG daphne.http_protocol: HTTP close for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,860] DEBUG daphne.http_protocol: HTTP response complete for ['127.0.0.1', 53839]
+[2025-10-22 01:11:42,861] INFO django.channels.server: HTTP GET /static/rest_framework/img/grid.png 304 [0.02, 127.0.0.1:53839]
+[2025-10-22 01:19:35,686] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 01:19:36,753] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 01:19:36,984] INFO django.utils.autoreload: Watching for file changes with StatReloader
+[2025-10-22 01:19:37,591] INFO daphne.server: HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+[2025-10-22 01:19:37,593] INFO daphne.server: Configuring endpoint tcp:port=8001:interface=0.0.0.0
+[2025-10-22 01:19:37,593] CRITICAL daphne.server: Listen failure: Couldn't listen on 0.0.0.0:8001: [WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted.
+[2025-10-22 01:19:44,997] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 01:19:46,271] DEBUG asyncio: Using selector: SelectSelector
+[2025-10-22 01:19:46,505] INFO django.utils.autoreload: Watching for file changes with StatReloader
+[2025-10-22 01:19:46,732] INFO daphne.server: HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+[2025-10-22 01:19:46,733] INFO daphne.server: Configuring endpoint tcp:port=8001:interface=0.0.0.0
+[2025-10-22 01:19:46,734] CRITICAL daphne.server: Listen failure: Couldn't listen on 0.0.0.0:8001: [WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted.
