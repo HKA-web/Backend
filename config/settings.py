@@ -119,7 +119,6 @@ if not SQLSERVER_DEFAULT:
             "database": "master",
             "uid": "sa",
             "pwd": "PASSWORDSETUPSRVNUSANTARAMUJUR",
-            "priority": 1,
         }
     }
 
