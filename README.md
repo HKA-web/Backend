@@ -32,3 +32,11 @@ cwd migrate auth
 ```
 cwd migrate
 ```
+>Install Dependency Module
+```
+pip install -r <module>\requirements.txt --no-cache-dir
+```
+>Run Program
+```
+cwd runserver <host>:<port>
+```
