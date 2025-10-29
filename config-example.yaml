@@ -1,17 +1,13 @@
-server:
-  host: 0.0.0.0
-  port: 8000
-  debug: true
-  workers: auto
-
+debug: true
+allowed_hosts: ["localhost", "127.0.0.1"]
 databases:
-  postgres:
-    engine: django.db.backends.postgresql
-    name: localdb
-    user: postgres
-    password: root
-    host: localhost
-    port: 5432
+  default:
+    ENGINE: django.db.backends.postgresql
+    NAME: postgres
+    USER: postgres
+    PASSWORD: 111111
+    HOST: localhost
+    PORT: 5432
   sqlserver:
     server1:
       driver: "{SQL Server}"
@@ -19,16 +15,3 @@ databases:
       database: "master"
       uid: "sa"
       pwd: ""
-    
-workers:
-  authentication:
-    priority: 1
-    queue: authentication_queue
-  sample:
-    priority: 2
-    queue: sample_queue
-
-channels:
-  redis_url: redis://127.0.0.1:6379/1
-tasks:
-  redis_url: redis://127.0.0.1:6379/2

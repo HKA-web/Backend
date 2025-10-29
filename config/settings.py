@@ -1,93 +1,109 @@
 import os
+import sys
 import yaml
+import logging
+import platform
+import structlog
 from pathlib import Path
+from django.utils.log import RequireDebugTrue
 
-# -----------------------------
-# Base directory
-# -----------------------------
+# === BASE PATH SETUP ===========================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
+APPS_DIR = BASE_DIR / "apps"
 
-# -----------------------------
-# Service name
-# -----------------------------
-SERVICE_NAME = os.environ.get('SERVICE_NAME', 'users-service')
+for path in (BASE_DIR, APPS_DIR):
+    if path.exists() and str(path) not in sys.path:
+        sys.path.insert(0, str(path))
 
-# -----------------------------
-# Load config.yaml
-# -----------------------------
-with open(BASE_DIR / 'config.yaml') as f:
-    CONFIG = yaml.safe_load(f)
+# === AUTO SCAN APP =============================================================
+AUTO_APPS = []
+if APPS_DIR.exists():
+    for app in APPS_DIR.iterdir():
+        if app.is_dir() and (app / "__init__.py").exists():
+            AUTO_APPS.append(app.name)
 
-# -----------------------------
-# Security
-# -----------------------------
-SECRET_KEY = CONFIG['server'].get(
-    'secret_key',
-    'django-insecure-$2of$_!*kpie7%j-runx!p=zf#uh($abdx%(-imd&h)v_o@oy4'
-)
-DEBUG = CONFIG['server'].get('debug', True)
-ALLOWED_HOSTS = CONFIG.get('allowed_hosts', ['*'])
+for app in BASE_DIR.iterdir():
+    if app.is_dir() and (app / "__init__.py").exists():
+        if app.name not in AUTO_APPS and app.name not in ["config", "apps", "__pycache__"]:
+            AUTO_APPS.append(app.name)
 
-# -----------------------------
-# Server Run
-# -----------------------------
-SERVER_CONFIG = CONFIG.get("server", {}) 
-SERVER_HOST = SERVER_CONFIG.get("host", "127.0.0.1")
-SERVER_PORT = str(SERVER_CONFIG.get("port", 8000))
+# === CLEAR TERMINAL DAN LIST APP ==============================================
+if os.environ.get("RUN_MAIN") == "true":
+    os.system("cls" if platform.system() == "Windows" else "clear")
+    print("\n Django Auto App Scanner\n" + "=" * 35)
+    for i, app in enumerate(AUTO_APPS, start=1):
+        print(f"  {i:02d}. {app}")
+    print("=" * 35)
+    print(f" Total {len(AUTO_APPS)} app terdeteksi.\n")
 
-# -----------------------------
-# Application
-# -----------------------------
+# === LOAD CONFIG YAML ==========================================================
+CONFIG_PATH = BASE_DIR / "config.yaml"
+CONFIG = {}
+
+if CONFIG_PATH.exists():
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            CONFIG = yaml.safe_load(f) or {}
+            print("[INFO] config.yaml loaded successfully.")
+    except Exception as e:
+        print(f"[WARN] Gagal membaca config.yaml: {e}")
+else:
+    print("[WARN] config.yaml tidak ditemukan, menggunakan default setting.")
+
+# === DJANGO CORE SETTINGS ======================================================
+SECRET_KEY = CONFIG.get("secret_key", "django-insecure-xs_%_86*c_@y&wj+d3sswr_l2e-x8p@ewp-sety*f&gv+6hg__")
+DEBUG = CONFIG.get("debug", True)
+ALLOWED_HOSTS = CONFIG.get("allowed_hosts", ["*"])
+
+# === APLIKASI ==================================================================
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'channels',
-    'django_extensions',
-    'authentication',
-    'core',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    *AUTO_APPS,
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-ROOT_URLCONF = 'config.urls'
-WSGI_APPLICATION = 'wsgi.application'
-ASGI_APPLICATION = 'config.asgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
-# -----------------------------
-# Database (Django ORM)
-# -----------------------------
+# === DATABASE ==================================================================
 DATABASES = {}
 
-for alias, db_conf in CONFIG.get('databases', {}).items():
+for alias, db_conf in CONFIG.get("databases", {}).items():
+    # ubah semua key menjadi lowercase
+    db_conf = {k.lower(): v for k, v in db_conf.items()}
+
     if 'engine' in db_conf:
         DATABASES[alias] = {
             'ENGINE': db_conf.get('engine', 'django.db.backends.sqlite3'),
@@ -98,19 +114,18 @@ for alias, db_conf in CONFIG.get('databases', {}).items():
             'PORT': db_conf.get('port', ''),
         }
 
-# Default fallback jika tidak ada sama sekali
 if "default" not in DATABASES:
     DATABASES["default"] = {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "111111",
+        "HOST": "localhost",
+        "PORT": "5432",
+        "OPTIONS": {"options": "-c search_path=public"},
     }
 
-# -----------------------------
-# SQL Server 2000 multi-server config (otomatis dari env.yaml / config.yaml)
-# -----------------------------
 SQLSERVER_DEFAULT = CONFIG.get('databases', {}).get('sqlserver', {})
-
-# Fallback default jika env.yaml tidak ada sama sekali
 if not SQLSERVER_DEFAULT:
     SQLSERVER_DEFAULT = {
         "server1": {
@@ -121,117 +136,87 @@ if not SQLSERVER_DEFAULT:
             "pwd": "PASSWORDSETUPSRVNUSANTARAMUJUR",
         }
     }
-
-# -----------------------------
-# Password validation
-# -----------------------------
+    
+# === VALIDATION & LOCALE =======================================================
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# -----------------------------
-# Internationalization
-# -----------------------------
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = CONFIG.get("language_code", "en-us")
+TIME_ZONE = CONFIG.get("time_zone", "UTC")
 USE_I18N = True
 USE_TZ = True
 
-# -----------------------------
-# Static files
-# -----------------------------
-STATIC_URL = 'static/'
-STATIC_ROOT = CONFIG['server'].get('staticfiles', os.path.join(BASE_DIR, 'static'))
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# === STATIC FILES ==============================================================
+STATIC_URL = CONFIG.get("static_url", "static/")
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# -----------------------------
-# Default primary key
-# -----------------------------
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# -----------------------------
-# Redis + Channel Layers
-# -----------------------------
-REDIS_URL = CONFIG.get('channels', {}).get('redis_url', 'redis://127.0.0.1:6379/0')
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": REDIS_URL,
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-    }
+# === STRUCTLOG (Colored Logging) ===============================================
+RESET = "\033[0m"
+COLORS = {
+    "DEBUG": "\033[34m",     # blue
+    "INFO": "\033[32m",      # green
+    "WARNING": "\033[33m",   # yellow
+    "ERROR": "\033[31m",     # red
+    "CRITICAL": "\033[35m",  # magenta
+    "SQL": "\033[36m",       # cyan
 }
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {"hosts": [REDIS_URL]},
-    }
-}
+class ColoredConsoleRenderer(structlog.dev.ConsoleRenderer):
+    def __call__(self, logger, name, event_dict):
+        level = event_dict.get("level", "INFO").upper()
+        msg = event_dict.get("event", "")
+        logger_name = event_dict.get("logger", "")
+        color = COLORS.get(level, RESET)
 
-# -----------------------------
-# ASGI server config
-# -----------------------------
-ASGI_HOST = CONFIG['server'].get('host', '0.0.0.0')
-ASGI_PORT = int(CONFIG['server'].get('port', 8000))
-ASGI_WORKERS = CONFIG['server'].get('workers', 1)  # untuk server, bukan modul
+        if "django.db.backends" in logger_name or "SELECT" in msg:
+            level = "SQL"
+            color = COLORS["SQL"]
 
-# -----------------------------
-# Module-specific workers (Huey)
-# -----------------------------
-SERVER_WORKERS = CONFIG.get('workers', {})  # misal: {"authentication": {"workers": 1}}
+        formatted = f"{color}[{level:<7}] {logger_name:<30} | {msg}{RESET}"
+        return formatted
 
-# -----------------------------
-# Logging
-# -----------------------------
-LOG_LEVEL = "DEBUG" if DEBUG else "WARNING"
-LOG_FORMAT = "[%(asctime)s] %(levelname)s %(name)s: %(message)s"
+structlog.configure(
+    processors=[
+        structlog.processors.TimeStamper(fmt="%H:%M:%S"),
+        structlog.stdlib.add_logger_name,
+        structlog.stdlib.add_log_level,
+        structlog.processors.UnicodeDecoder(),
+    ],
+    wrapper_class=structlog.make_filtering_bound_logger(logging.DEBUG),
+    logger_factory=structlog.stdlib.LoggerFactory(),
+)
 
-try:
-    import colorlog
-    FORMATTERS = {
-        "color": {
-            "()": "colorlog.ColoredFormatter",
-            "format": "%(log_color)s" + LOG_FORMAT,
-            "log_colors": {
-                "DEBUG": "cyan",
-                "INFO": "green",
-                "WARNING": "yellow",
-                "ERROR": "red",
-                "CRITICAL": "bold_red",
+if DEBUG:
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "colored": {
+                "()": structlog.stdlib.ProcessorFormatter,
+                "processor": ColoredConsoleRenderer(),
+                "foreign_pre_chain": [
+                    structlog.processors.TimeStamper(fmt="%H:%M:%S"),
+                    structlog.stdlib.add_logger_name,
+                    structlog.stdlib.add_log_level,
+                ],
             },
         },
-        "verbose": {"format": LOG_FORMAT},
-    }
-    COLOR_HANDLER = {"class": "logging.StreamHandler", "formatter": "color"}
-except ImportError:
-    FORMATTERS = {"verbose": {"format": LOG_FORMAT}}
-    COLOR_HANDLER = {"class": "logging.StreamHandler", "formatter": "verbose"}
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": FORMATTERS,
-    "handlers": {
-        "console": COLOR_HANDLER,
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": BASE_DIR / f"{SERVICE_NAME}.log",
-            "formatter": "verbose",
+        "filters": {"require_debug_true": {"()": RequireDebugTrue}},
+        "handlers": {
+            "console": {
+                "level": "DEBUG",
+                "filters": ["require_debug_true"],
+                "class": "logging.StreamHandler",
+                "formatter": "colored",
+            },
         },
-    },
-    "root": {"handlers": ["console", "file"], "level": LOG_LEVEL},
-}
-
-# -----------------------------
-# Startup info
-# -----------------------------
-import logging
-logger = logging.getLogger(__name__)
-if DEBUG:
-    logger.info("🚀 Running in DEBUG mode with verbose logging.")
-else:
-    logger.warning("⚙️ Running in PRODUCTION mode dengan minimal logging.")
+        "loggers": {
+            "django": {"handlers": ["console"], "level": "INFO", "propagate": False},
+            "django.server": {"handlers": ["console"], "level": "INFO", "propagate": False},
+            "django.db.backends": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+        },
+    }
