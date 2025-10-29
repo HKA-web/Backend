@@ -1,6 +1,3 @@
 [submodule "bin/python"]
 	path = bin/python
 	url = https://github.com/HKA-web/Python-Portable.git
-[submodule "sample"]
-	path = sample
-	url = https://github.com/HKA-web/Backend-Submodule.git

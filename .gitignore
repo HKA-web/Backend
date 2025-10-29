@@ -1,5 +1,4 @@
 env
 config.yaml
-static
-users-service.log
+static/
 mssql/
