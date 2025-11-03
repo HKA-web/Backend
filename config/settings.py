@@ -101,7 +101,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {}
 
 for alias, db_conf in CONFIG.get("databases", {}).items():
-    # ubah semua key menjadi lowercase
     db_conf = {k.lower(): v for k, v in db_conf.items()}
 
     if 'engine' in db_conf:
@@ -130,10 +129,10 @@ if not SQLSERVER_DEFAULT:
     SQLSERVER_DEFAULT = {
         "server1": {
             "driver": "{SQL Server}",
-            "pipe": r"\\192.168.6.28\pipe\sql\query",
+            "pipe": r"\\127.0.0.1\pipe\sql\query",
             "database": "master",
             "uid": "sa",
-            "pwd": "PASSWORDSETUPSRVNUSANTARAMUJUR",
+            "pwd": "",
         }
     }
     
