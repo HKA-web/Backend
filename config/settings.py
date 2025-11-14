@@ -5,6 +5,7 @@ import logging
 import platform
 import structlog
 from pathlib import Path
+from huey import RedisHuey
 from django.utils.log import RequireDebugTrue
 
 # === BASE PATH SETUP ===========================================================
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "huey.contrib.djhuey",
     *AUTO_APPS,
 ]
 

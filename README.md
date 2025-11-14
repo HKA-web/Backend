@@ -21,6 +21,7 @@ git pull --recurse-submodules
 # Related Project:
 
 1. Api Gateway: https://github.com/HKA-web/Api-Gateway.git
+2. Whatsapp Bot: https://github.com/HKA-web/Whatsapp-Bot.git
 
 # Instalation:
 
@@ -40,3 +41,17 @@ pip install -r <module>\requirements.txt --no-cache-dir
 ```
 cwd runserver <host>:<port>
 ```
+
+# Make Module:
+
+1. Copy folder blank
+2. ganti dengan nama module yang diinginkan
+3. hapus semua folder dengan nama __pycache__ yang berada didalam module kamu, agar dibuatkan ulang oleh sistem saat dijalankan
+
+
+# Commands
+>Menjalankan server default port 8000
+cwd runserver
+
+>Menjalankan huey sebanyak 4 <optional>
+cwd run_huey --workers 4

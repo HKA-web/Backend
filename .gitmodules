@@ -1,3 +1,6 @@
 [submodule "bin/python"]
 	path = bin/python
 	url = https://github.com/HKA-web/Python-Portable.git
+[submodule "whatsapp"]
+	path = whatsapp
+	url = https://github.com/HKA-web/Backend-Whatsapp.git
