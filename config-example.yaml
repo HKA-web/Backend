@@ -1,5 +1,20 @@
-debug: true
-allowed_hosts: ["localhost", "127.0.0.1"]
+server:
+  debug: debug
+  allowed_hosts: ['localhost', '127.0.0.1']
+  node_api: http://localhost:3000/api/send-messages
+
+redis:
+  host: localhost
+  port: 6379
+  db: 15
+  password: null
+  
+huey:
+  host: localhost
+  port: 6379
+  db: 15
+  immediate: false
+
 databases:
   default:
     ENGINE: django.db.backends.postgresql
@@ -7,11 +22,20 @@ databases:
     USER: postgres
     PASSWORD: 111111
     HOST: localhost
+    PORT: 5433
+    
+  erpro:
+    ENGINE: django.db.backends.postgresql
+    NAME: ERPRO
+    USER: postgres
+    PASSWORD: 111111
+    HOST: 192.168.3.152
     PORT: 5432
+        
   sqlserver:
     server1:
-      driver: "{SQL Server}"
-      pipe: "\\\\127.0.0.1\\pipe\\sql\\query"
-      database: "master"
-      uid: "sa"
-      pwd: ""
+      driver: '{SQL Server}'
+      pipe: '\\\\192.168.6.51\\pipe\\sql\\query'
+      database: 'master'
+      uid: 'sa'
+      pwd: 'PASSWORDSETUPSRVNUSANTARA'
