@@ -148,10 +148,10 @@ if 'default' not in DATABASES:
 SQLSERVER_DEFAULT = CONFIG.get('databases', {}).get('sqlserver', {})
 
 # === REDIS =======================================================
-REDIS_HOST = HUEY_CONF.get('host') or REDIS_CONF.get('host', '127.0.0.1')
-REDIS_PORT = HUEY_CONF.get('port') or REDIS_CONF.get('port', 6379)
-REDIS_DB   = HUEY_CONF.get('db') or REDIS_CONF.get('db', 5)
-REDIS_PASS = HUEY_CONF.get('password') or REDIS_CONF.get('password')
+REDIS_HOST = REDIS_CONF.get('host', '127.0.0.1')
+REDIS_PORT = REDIS_CONF.get('port', 6379)
+REDIS_DB   = REDIS_CONF.get('db', 5)
+REDIS_PASS = REDIS_CONF.get('password')
 
 # === HUEY CONFIG ===============================================================
 HUEY_IMMEDIATE = HUEY_CONF.get("immediate", False)
@@ -180,11 +180,11 @@ else:
     )
 
 # === WEBHOOK =======================================================
-WEBHOOK_USER = HUEY_CONF.get('user') or WEBHOOK_CONF.get('user', 'root')
-WEBHOOK_PASS = HUEY_CONF.get('password') or WEBHOOK_CONF.get('password', '#Admin#')
-WEBHOOK_URL   = HUEY_CONF.get('url') or WEBHOOK_CONF.get('url', 'http://localhost:8000')
-WEBHOOK_ACCESS   = HUEY_CONF.get('access') or WEBHOOK_CONF.get('access', '123')
-WEBHOOK_REFRESH   = HUEY_CONF.get('refresh') or WEBHOOK_CONF.get('refresh', '321')
+WEBHOOK_USER = WEBHOOK_CONF.get('user', 'root')
+WEBHOOK_PASS = WEBHOOK_CONF.get('password', '#Admin#')
+WEBHOOK_URL   = WEBHOOK_CONF.get('url', 'http://localhost:8000')
+WEBHOOK_ACCESS   = WEBHOOK_CONF.get('access', '123')
+WEBHOOK_REFRESH   = WEBHOOK_CONF.get('refresh', '321')
 
 # === VALIDATION & LOCALE =======================================================
 AUTH_PASSWORD_VALIDATORS = [
