@@ -53,6 +53,7 @@ else:
 
 HUEY_CONF = CONFIG.get('huey', {})
 REDIS_CONF = CONFIG.get('redis', {})
+WEBHOOK_CONF = CONFIG.get('webhook', {})
 
 # === SERVER CONFIG =============================================================
 SERVER_CONF = CONFIG.get('server', {})
@@ -178,6 +179,12 @@ else:
         immediate=False,
     )
 
+# === WEBHOOK =======================================================
+WEBHOOK_USER = HUEY_CONF.get('user') or WEBHOOK_CONF.get('user', 'root')
+WEBHOOK_PASS = HUEY_CONF.get('password') or WEBHOOK_CONF.get('password', '#Admin#')
+WEBHOOK_URL   = HUEY_CONF.get('url') or WEBHOOK_CONF.get('url', 'http://localhost:8000')
+WEBHOOK_ACCESS   = HUEY_CONF.get('access') or WEBHOOK_CONF.get('access', '123')
+WEBHOOK_REFRESH   = HUEY_CONF.get('refresh') or WEBHOOK_CONF.get('refresh', '321')
 
 # === VALIDATION & LOCALE =======================================================
 AUTH_PASSWORD_VALIDATORS = [

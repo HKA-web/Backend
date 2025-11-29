@@ -4,3 +4,6 @@
 [submodule "whatsapp"]
 	path = whatsapp
 	url = https://github.com/HKA-web/Backend-Whatsapp.git
+[submodule "mssql"]
+	path = mssql
+	url = https://github.com/HKA-web/Backend-MSSQL.git

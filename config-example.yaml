@@ -1,41 +1,48 @@
-server:
-  debug: debug
-  allowed_hosts: ['localhost', '127.0.0.1']
-  node_api: http://localhost:3000/api/send-messages
-
-redis:
-  host: localhost
-  port: 6379
-  db: 15
-  password: null
-  
-huey:
-  host: localhost
-  port: 6379
-  db: 15
-  immediate: false
-
 databases:
   default:
     ENGINE: django.db.backends.postgresql
-    NAME: postgres
-    USER: postgres
-    PASSWORD: 111111
     HOST: localhost
+    NAME: postgres
+    PASSWORD: 111111
     PORT: 5433
-    
+    USER: postgres
   erpro:
     ENGINE: django.db.backends.postgresql
-    NAME: ERPRO
-    USER: postgres
+    HOST: localhost
+    NAME: postgres
     PASSWORD: 111111
-    HOST: 192.168.3.152
     PORT: 5432
-        
+    USER: postgres
   sqlserver:
     server1:
+      database: master
       driver: '{SQL Server}'
-      pipe: '\\\\192.168.6.51\\pipe\\sql\\query'
-      database: 'master'
-      uid: 'sa'
-      pwd: 'PASSWORDSETUPSRVNUSANTARA'
+      pipe: \\\\localhost\\pipe\\sql\\query
+      pwd: root
+      uid: sa
+huey:
+  db: 15
+  host: localhost
+  immediate: false
+  port: 6379
+redis:
+  db: 15
+  host: localhost
+  password: null
+  port: 6379
+server:
+  ai_agent: false
+  ai_api: http://localhost:5678/webhook/user-request
+  allowed_hosts:
+  - localhost
+  - 127.0.0.1
+  debug: debug
+  node_api: http://localhost:3000/api/send-messages
+  retry: 3
+  standalone: false
+webhook:
+  access: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzOTUxNzkzLCJpYXQiOjE3NjM3Nzg5OTMsImp0aSI6ImMxZDJiNzYwNDE0NzQ3NzFiZWNhMmU4NzY0ZWM5ZjBmIiwidXNlciI6IklUT1BSIiwiZW1haWwiOiJpdG9wckBtYWlsLmNvbSIsInN1cGVydXNlciI6dHJ1ZSwiYXVkIjoiRVJQcm8uTW9iaWxlIiwiaXNzIjoiRVJQcm8ifQ.JFBfPIO1U4TFyCy4i4aZZxWkl2MgxWxvWsMUPO1xRdO4Rrb38Gxk8nem-XvOXq-rr3U-w-Jq36uOtHpJY-Lliw
+  password: '#user#'
+  refresh: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2NDM4Mzc5MywiaWF0IjoxNzYzNzc4OTkzLCJqdGkiOiI0ZWViZWNkODk5NDQ0NTA1YTM1ZDljMWMxMGE1OTc4OCIsInVzZXIiOiJJVE9QUiIsImVtYWlsIjoiaXRvcHJAbWFpbC5jb20iLCJzdXBlcnVzZXIiOnRydWUsImF1ZCI6IkVSUHJvLk1vYmlsZSIsImlzcyI6IkVSUHJvIn0.H9uJciQ7TB35wxiJ8ONY4dx9rXU5J-8vl7-Afe2aOGlcST0zA8UIneezNu_d98JU9Z-Ah0lkHCmjgn3EoFERmA
+  url: https://pro.citiconindonesia.com:8002
+  user: ITOPR
